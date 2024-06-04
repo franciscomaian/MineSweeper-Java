@@ -58,7 +58,13 @@ public class MineSweeper {
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
-                ret += "[" + grid[x][y].getValue() + "]";
+                //if (grid[x][y].isOpen())
+                    if (grid[x][y].isBomb())
+                        ret += "[" + grid[x][y].getValue() + "]";
+                    else
+                        ret += "[ " + grid[x][y].getValue() + "]";
+                //else
+                //    ret += "[  ]";
             }
             ret += "\n";
         }
@@ -66,4 +72,13 @@ public class MineSweeper {
         return ret;
 
     }
+
+    /*
+    public boolean openCell(int x, int y) {
+        if (grid[x][y].isBomb())
+            return true;
+
+        return false;
+    }
+    */
 }
