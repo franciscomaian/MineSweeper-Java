@@ -12,7 +12,7 @@ public class Field implements Cell{
         return value;
     }
 
-    public void changeValue(int specialBombs) {
-        value += specialBombs;
+    public void changeValue(int specialBombsAround) {
+        value += specialBombsAround;
     }
 }
