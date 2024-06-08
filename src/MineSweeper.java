@@ -72,7 +72,10 @@ public class MineSweeper {
                     else
                         ret += "[ " + grid[x][y].getValue() + "]";
                 else
-                    ret += "[  ]";
+                    if (grid[x][y].isFlagged())
+                        ret += "[\uD83D\uDEA9]";
+                    else
+                        ret += "[  ]";
             }
             ret += "\n";
         }
@@ -81,9 +84,8 @@ public class MineSweeper {
 
     }
 
-
     public void openCell(int x, int y) {
-        if (!grid[x][y].isOpen()) {
+        if (!grid[x][y].isOpen() && !grid[x][y].isFlagged()) {
             grid[x][y].open();
             opened++;
 
@@ -99,6 +101,11 @@ public class MineSweeper {
             }
         }
 
+    }
+
+    public void flagCell(int x, int y) {
+        if (!grid[x][y].isOpen())
+            grid[x][y].flag();
     }
 
 }
