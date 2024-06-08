@@ -4,8 +4,12 @@ public class MineSweeper {
     private Cell[][] grid;
     private int totalBombs;
     private int size;
+    private boolean gameOver;
+    private int opened;
 
     public MineSweeper(int size) {
+        opened = 0;
+        gameOver = false;
         this.size = size;
         grid = new Cell[size][size];
         totalBombs = size*size/10; //O campo minado vai possuir 10% de células preenchidas com bombas
@@ -53,18 +57,22 @@ public class MineSweeper {
 
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
     public String toString() {
         String ret = "";
 
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
-                //if (grid[x][y].isOpen())
+                if (grid[x][y].isOpen())
                     if (grid[x][y].isBomb())
                         ret += "[" + grid[x][y].getValue() + "]";
                     else
                         ret += "[ " + grid[x][y].getValue() + "]";
-                //else
-                //    ret += "[  ]";
+                else
+                    ret += "[  ]";
             }
             ret += "\n";
         }
@@ -73,12 +81,24 @@ public class MineSweeper {
 
     }
 
-    /*
-    public boolean openCell(int x, int y) {
-        if (grid[x][y].isBomb())
-            return true;
 
-        return false;
+    public void openCell(int x, int y) {
+        if (!grid[x][y].isOpen()) {
+            grid[x][y].open();
+            opened++;
+
+            if (grid[x][y].isBomb() || opened == ((size * size) - totalBombs - 2))
+                gameOver = true;
+            else {
+                if (grid[x][y].getValue() == 0)
+                    for (int i = x - 1; i <= x + 1; i++)
+                        if (i >= 0 && i < size)
+                            for (int j = y - 1; j <= y + 1; j++)
+                                if (j >= 0 && j < size)
+                                    openCell(i, j);
+            }
+        }
+
     }
-    */
+
 }
