@@ -8,8 +8,16 @@ public class Main {
         int x;
         int y;
         boolean flag;
+        char[][] getGrid;
 
-        System.out.printf(ms.toString());
+        getGrid = ms.actualGrid();
+
+        for (int i = 0; i < getGrid.length; i++) {
+            for (int j = 0; j < getGrid[0].length; j++)
+                System.out.print("[" + getGrid[i][j] + "]");
+
+            System.out.println();
+        }
 
         while (!ms.isGameOver()) {
             input = in.nextLine();
@@ -24,7 +32,14 @@ public class Main {
             else
                 ms.openCell(x, y, true);
 
-            System.out.print(ms.toString());
+            getGrid = ms.actualGrid();
+
+            for (int i = 0; i < getGrid.length; i++) {
+                for (int j = 0; j < getGrid[0].length; j++)
+                    System.out.print("[" + getGrid[i][j] + "]");
+
+                System.out.println();
+            }
         }
 
         System.out.print("Game Over");

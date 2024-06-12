@@ -1,7 +1,7 @@
 import java.lang.Math;
 
 public class MineSweeper {
-    public final double BOMB_PERCENTAGE = 10.0/100.0;
+    public final double BOMB_PERCENTAGE = 15/100.0;
     public final int SPECIAL_BOMBS = 2;
     public final int ROUNDS_CHANGE_STATUS = 3;
 
@@ -78,30 +78,25 @@ public class MineSweeper {
         return gameOver;
     }
 
-    public String toString() {
-        String ret = "";
-
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+    public char[][] actualGrid() {
+        char[][] ret = new char[size][size];
+        for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
                 if (grid[x][y].isOpen())
                     if (grid[x][y].isBomb())
                         if (grid[x][y].isActive())
-                            ret += "[\uD83D\uDCA5]";
+                            ret[x][y] = 'B';
                         else
-                            ret += "[\uD83E\uDE9B]";
+                            ret[x][y] = 'D';
                     else
-                        ret += "[ " + grid[x][y].getValue() + "]";
+                        ret[x][y] = (char)(grid[x][y].getValue() + '0');
                 else
                     if (grid[x][y].isFlagged())
-                        ret += "[\uD83D\uDEA9]";
+                        ret[x][y] = 'F';
                     else
-                        ret += "[  ]";
-            }
-            ret += "\n";
-        }
+                        ret[x][y] = ' ';
 
         return ret;
-
     }
 
     public void openCell(int x, int y, boolean isPlayer) {
