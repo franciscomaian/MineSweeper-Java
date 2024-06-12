@@ -6,5 +6,6 @@ public interface Cell {
     public void open();
     public void flag();
     public boolean isFlagged();
-    public boolean isSpecial();
+    public boolean isActive();
+    public void changeStatus(int specialBombsAround);
 }

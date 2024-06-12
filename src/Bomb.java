@@ -11,8 +11,8 @@ public class Bomb implements Cell{
         return true;
     }
 
-    public boolean isSpecial() {
-        return false;
+    public boolean isActive() {
+        return true;
     }
 
     public int getValue() {
@@ -33,5 +33,9 @@ public class Bomb implements Cell{
 
     public boolean isFlagged() {
         return flag;
+    }
+
+    public void changeStatus(int specialBombsAround) {
+        ; //A bomba normal nao muda de status
     }
 }

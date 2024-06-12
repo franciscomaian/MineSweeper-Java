@@ -1,18 +1,32 @@
 import java.lang.Math;
 
 public class MineSweeper {
+    public final double BOMB_PERCENTAGE = 10.0/100.0;
+    public final int SPECIAL_BOMBS = 2;
+    public final int ROUNDS_CHANGE_STATUS = 3;
+
     private Cell[][] grid;
     private int totalBombs;
     private int size;
     private boolean gameOver;
     private int opened;
 
+    //Setar as bombas especiais
+    private int counter;
+    private boolean bombsActive;
+    private int[][] localSpecialBombs;
+
     public MineSweeper(int size) {
         opened = 0;
         gameOver = false;
         this.size = size;
         grid = new Cell[size][size];
-        totalBombs = size*size/10; //O campo minado vai possuir 10% de células preenchidas com bombas
+        totalBombs = (int) (size*size*BOMB_PERCENTAGE);
+
+        //Configurando as variaveis das bombas especiais
+        counter = 0;
+        bombsActive = true;
+        localSpecialBombs = new int[SPECIAL_BOMBS][2];
 
         //Adicioando as bombas normais
         for (int i = 0; i < totalBombs; i++) {
@@ -25,15 +39,18 @@ public class MineSweeper {
                 grid[x][y] = new Bomb();
         }
 
-        //Adicionando duas bombas especiais
-        for (int i = 0; i < 2; i++) {
+        //Adicionando as bombas especiais
+        for (int i = 0; i < SPECIAL_BOMBS; i++) {
             int x = (int) (size*Math.random());
             int y = (int) (size*Math.random());
 
             if (grid[x][y] != null)
                 i--;
-            else
+            else {
                 grid[x][y] = new SpecialBomb();
+                localSpecialBombs[i][0] = x;
+                localSpecialBombs[i][1] = y;
+            }
         }
 
         //Definindo os numeros dos campos sem bombas
@@ -68,7 +85,10 @@ public class MineSweeper {
             for (int y = 0; y < size; y++) {
                 if (grid[x][y].isOpen())
                     if (grid[x][y].isBomb())
-                        ret += "[" + grid[x][y].getValue() + "]";
+                        if (grid[x][y].isActive())
+                            ret += "[\uD83D\uDCA5]";
+                        else
+                            ret += "[\uD83E\uDE9B]";
                     else
                         ret += "[ " + grid[x][y].getValue() + "]";
                 else
@@ -84,23 +104,50 @@ public class MineSweeper {
 
     }
 
-    public void openCell(int x, int y) {
+    public void openCell(int x, int y, boolean isPlayer) {
         if (!grid[x][y].isOpen() && !grid[x][y].isFlagged()) {
             grid[x][y].open();
             opened++;
 
-            if (grid[x][y].isBomb() || opened == ((size * size) - totalBombs - 2))
+            if (grid[x][y].isActive() || opened == ((size * size) - totalBombs))
                 gameOver = true;
-            else {
-                if (grid[x][y].getValue() == 0)
-                    for (int i = x - 1; i <= x + 1; i++)
-                        if (i >= 0 && i < size)
-                            for (int j = y - 1; j <= y + 1; j++)
-                                if (j >= 0 && j < size)
-                                    openCell(i, j);
-            }
-        }
 
+            if (isPlayer) {
+                counter++;
+
+                if (counter >= ROUNDS_CHANGE_STATUS) {
+                    counter = 0;
+
+                    for (int bombs = 0; bombs < SPECIAL_BOMBS; bombs++) {
+                        int xBomb = localSpecialBombs[bombs][0];
+                        int yBomb = localSpecialBombs[bombs][1];
+
+                        if (!grid[xBomb][yBomb].isOpen())
+                            for (int i = xBomb - 1; i <= xBomb + 1; i++)
+                                if (i >= 0 && i < size)
+                                    for (int j = yBomb - 1; j <= yBomb + 1; j++)
+                                        if (j >= 0 && j < size)
+                                            if (!grid[i][j].isBomb() || !grid[i][j].isOpen())
+                                                if (bombsActive)
+                                                    grid[i][j].changeStatus(-1);
+                                                else
+                                                    grid[i][j].changeStatus(1);
+                    }
+
+                    bombsActive = !bombsActive;
+
+                }
+            }
+
+            if (grid[x][y].getValue() == 0)
+                for (int i = x - 1; i <= x + 1; i++)
+                    if (i >= 0 && i < size)
+                        for (int j = y - 1; j <= y + 1; j++)
+                            if (j >= 0 && j < size)
+                                if (!grid[i][j].isBomb())
+                                    openCell(i, j, false);
+
+        }
     }
 
     public void flagCell(int x, int y) {

@@ -22,7 +22,7 @@ public class Main {
             if (flag)
                 ms.flagCell(x, y);
             else
-                ms.openCell(x, y);
+                ms.openCell(x, y, true);
 
             System.out.print(ms.toString());
         }

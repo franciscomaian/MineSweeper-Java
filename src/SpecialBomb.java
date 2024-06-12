@@ -13,16 +13,15 @@ public class SpecialBomb implements Cell{
         return true;
     }
 
-    public boolean isSpecial() {
-        return true;
-    }
-
     public int getValue() {
         return -2;
     }
 
-    public void changeStatus() {
-        active = !active;
+    public void changeStatus(int specialBombsAround) {
+        if (specialBombsAround < 0)
+            active = false;
+        else
+            active = true;
     }
 
     public boolean isActive() {

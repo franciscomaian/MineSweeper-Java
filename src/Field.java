@@ -13,7 +13,7 @@ public class Field implements Cell{
         return false;
     }
 
-    public boolean isSpecial() {
+    public boolean isActive() {
         return false;
     }
 
@@ -21,7 +21,7 @@ public class Field implements Cell{
         return value;
     }
 
-    public void changeValue(int specialBombsAround) {
+    public void changeStatus(int specialBombsAround) {
         value += specialBombsAround;
     }
 
