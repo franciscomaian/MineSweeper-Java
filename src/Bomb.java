@@ -1,3 +1,4 @@
+
 public class Bomb implements Cell{
     private boolean open;
     private boolean flag;

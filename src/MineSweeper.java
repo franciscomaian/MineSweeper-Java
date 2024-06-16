@@ -91,10 +91,10 @@ public class MineSweeper {
                     else
                         ret[x][y] = (char)(grid[x][y].getValue() + '0');
                 else
-                    if (grid[x][y].isFlagged())
-                        ret[x][y] = 'F';
-                    else
-                        ret[x][y] = ' ';
+                if (grid[x][y].isFlagged())
+                    ret[x][y] = 'F';
+                else
+                    ret[x][y] = ' ';
 
         return ret;
     }
@@ -148,6 +148,17 @@ public class MineSweeper {
     public void flagCell(int x, int y) {
         if (!grid[x][y].isOpen())
             grid[x][y].flag();
+    }
+
+    public boolean hasWon() {
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                if (!grid[x][y].isOpen() && !grid[x][y].isBomb()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
