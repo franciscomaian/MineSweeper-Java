@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 
 public class MineSweeperGUI extends JFrame {
 
@@ -11,6 +15,7 @@ public class MineSweeperGUI extends JFrame {
     private long startTime;
     private JRadioButton flagButton;
     private JRadioButton openButton;
+    private int difficulty = 0;
 
     public MineSweeperGUI() {
         setTitle("Minesweeper");
@@ -50,7 +55,7 @@ public class MineSweeperGUI extends JFrame {
         easyButton.setBackground(new Color(144, 238, 144));
         easyButton.setFocusPainted(false);
         easyButton.setPreferredSize(new Dimension(200, 50));
-        easyButton.addActionListener(e -> startGame(5));
+        easyButton.addActionListener(e -> startGame(0));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -61,7 +66,7 @@ public class MineSweeperGUI extends JFrame {
         mediumButton.setBackground(new Color(173, 216, 230));
         mediumButton.setFocusPainted(false);
         mediumButton.setPreferredSize(new Dimension(200, 50));
-        mediumButton.addActionListener(e -> startGame(8));
+        mediumButton.addActionListener(e -> startGame(1));
         gbc.gridx = 1;
         gbc.gridy = 1;
         panel.add(mediumButton, gbc);
@@ -71,7 +76,7 @@ public class MineSweeperGUI extends JFrame {
         hardButton.setBackground(new Color(255, 182, 193));
         hardButton.setFocusPainted(false);
         hardButton.setPreferredSize(new Dimension(200, 50));
-        hardButton.addActionListener(e -> startGame(15));
+        hardButton.addActionListener(e -> startGame(2));
         gbc.gridx = 2;
         gbc.gridy = 1;
         panel.add(hardButton, gbc);
@@ -79,8 +84,16 @@ public class MineSweeperGUI extends JFrame {
         add(panel, BorderLayout.CENTER);
     }
 
-    private void startGame(int size) {
-        this.size = size;
+    private void startGame(int difficulty) {
+        this.difficulty = difficulty;
+
+        if (difficulty == 0)
+            size = 5;
+        else
+            if (difficulty == 1)
+                size = 8;
+            else
+                size = 15;
         game = new MineSweeper(size);
         buttons = new JButton[size][size];
         startTime = System.currentTimeMillis();
@@ -180,20 +193,64 @@ public class MineSweeperGUI extends JFrame {
             if (game.isGameOver()) {
                 long timeTaken = (System.currentTimeMillis() - startTime) / 1000;
                 int choice = 0;
-                if (game.hasWon()) {
-                    choice = JOptionPane.showConfirmDialog(null, "🎉 Congratulations! You won in " + timeTaken + " seconds!\nDo you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
-                    if (choice == JOptionPane.YES_OPTION) {
-                        restartGame();
+
+                File scoreboard;
+                if (difficulty == 0)
+                    scoreboard = new File("src/Scoreboard/easy.txt");
+                else
+                    if (difficulty == 1)
+                        scoreboard = new File("src/Scoreboard/medium.txt");
+                    else
+                        scoreboard = new File("src/Scoreboard/hard.txt");
+
+                try {
+                    String[] score = new String[10];
+                    Scanner reader = new Scanner(scoreboard);
+                    for (int i = 0; reader.hasNextLine(); i++)
+                        score[i] = reader.nextLine();
+
+                    if (game.hasWon()) {
+                        String print = "";
+                        boolean inSB = false;
+                        int totalPrints = 0;
+                        for (int i = 0; totalPrints < 10 && score[i] != null; i++)
+                            if (!inSB && score[i].compareTo(Long.toString(timeTaken)) > 0) {
+                                print += timeTaken + " seconds\n";
+                                inSB = true;
+                                totalPrints++;
+                                i--;
+                            } else {
+                                print += score[i] + "\n";
+                                totalPrints++;
+                            }
+
+                        FileWriter write = new FileWriter(scoreboard, false);
+                        write.write(print);
+                        write.close();
+
+                        choice = JOptionPane.showConfirmDialog(null, "🎉 Congratulations! You won in " + timeTaken + " seconds!\nScoreboard:\n" + print + "Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION) {
+                            restartGame();
+                        } else {
+                            System.exit(0);
+                        }
                     } else {
-                        System.exit(0);
+                        String print = "";
+                        for (int i = 0; i < 10 && score[i] != null; i++)
+                            print += score[i] + "\n";
+
+                        choice = JOptionPane.showConfirmDialog(null, "❌ Game Over! Time: " + timeTaken + " seconds\nScoreboard:\n" + print + "Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.YES_OPTION) {
+                            restartGame();
+                        } else {
+                            System.exit(0);
+                        }
                     }
-                } else {
-                    choice = JOptionPane.showConfirmDialog(null, "❌ Game Over! Time: " + timeTaken + " seconds\nDo you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
-                    if (choice == JOptionPane.YES_OPTION) {
-                        restartGame();
-                    } else {
-                        System.exit(0);
-                    }
+
+                reader.close();
+                } catch (IOException err) {
+                    System.out.println("File not found");
+                    System.exit(0);
                 }
             }
         }
