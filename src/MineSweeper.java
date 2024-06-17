@@ -19,6 +19,12 @@ public class MineSweeper {
     private boolean bombsActive; // Indica se as bombas especiais estão ativas
     private int[][] localSpecialBombs; // Localização das bombas especiais
 
+    /**
+     * Constructs a MineSweeper object with a specified size for the game board.
+     *
+     * @param size The size of the game board.
+     */
+
     // Construtor da classe MineSweeper
     public MineSweeper(int size) {
         opened = 0;
@@ -76,10 +82,22 @@ public class MineSweeper {
         }
     }
 
+    /**
+     * Checks if the game is over.
+     *
+     * @return True if the game is over, false otherwise.
+     */
+
     // Método que verifica se o jogo terminou
     public boolean isGameOver() {
         return gameOver;
     }
+
+    /**
+     * Returns the current display grid of the game.
+     *
+     * @return A 2D character array representing the game's display grid.
+     */
 
     // Método que retorna a grade atual do jogo para exibição
     public char[][] actualGrid() {
@@ -102,6 +120,14 @@ public class MineSweeper {
 
         return ret;
     }
+
+    /**
+     * Opens a cell at the specified coordinates and updates the game state.
+     *
+     * @param x         The x-coordinate of the cell to open.
+     * @param y         The y-coordinate of the cell to open.
+     * @param isPlayer  Indicates if the action is performed by the player.
+     */
 
     // Método para abrir uma célula
     public void openCell(int x, int y, boolean isPlayer) {
@@ -150,11 +176,24 @@ public class MineSweeper {
         }
     }
 
+    /**
+     * Toggles the flag status of a cell at the specified coordinates.
+     *
+     * @param x The x-coordinate of the cell to flag.
+     * @param y The y-coordinate of the cell to flag.
+     */
+
     // Método para marcar uma célula com bandeira
     public void flagCell(int x, int y) {
         if (!grid[x][y].isOpen())
             grid[x][y].flag();
     }
+
+    /**
+     * Checks if the player has won the game.
+     *
+     * @return True if the player has won, false otherwise.
+     */
 
     // Método que verifica se o jogador venceu o jogo
     public boolean hasWon() {

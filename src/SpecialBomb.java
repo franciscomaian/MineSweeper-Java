@@ -12,15 +12,33 @@ public class SpecialBomb implements Cell {
         flag = false; // Inicializa a célula sem bandeira
     }
 
+    /**
+     * Checks if the cell is a bomb.
+     *
+     * @return Always returns true, as this class represents a bomb.
+     */
+
     // Método que verifica se a célula é uma bomba
     public boolean isBomb() {
         return true; // Retorna true, pois esta classe representa uma bomba
     }
 
+    /**
+     * Returns the value of the cell.
+     *
+     * @return A fixed value of -2 to indicate this cell is a special bomb.
+     */
+
     // Método que retorna o valor da célula
     public int getValue() {
         return -2; // Retorna -2 para indicar que esta célula é uma bomba especial
     }
+
+    /**
+     * Changes the status of the special bomb based on the number of special bombs around it.
+     *
+     * @param specialBombsAround The number of special bombs surrounding this bomb.
+     */
 
     // Método que muda o status da bomba especial baseado no número de bombas especiais ao redor
     public void changeStatus(int specialBombsAround) {
@@ -30,10 +48,22 @@ public class SpecialBomb implements Cell {
             active = true; // Ativa a bomba se o número de bombas especiais ao redor for não negativo
     }
 
+    /**
+     * Checks if the cell is active.
+     *
+     * @return The active status of the bomb.
+     */
+
     // Método que verifica se a célula está ativa
     public boolean isActive() {
         return active; // Retorna o valor da variável active
     }
+
+    /**
+     * Checks if the cell is open.
+     *
+     * @return The open status of the cell.
+     */
 
     // Método que verifica se a célula está aberta
     public boolean isOpen() {
@@ -49,6 +79,12 @@ public class SpecialBomb implements Cell {
     public void flag() {
         flag = !flag; // Alterna o valor da variável flag (true para false e vice-versa)
     }
+
+    /**
+     * Checks if the cell is flagged.
+     *
+     * @return The flag status of the cell.
+     */
 
     // Método que verifica se a célula está marcada com uma bandeira
     public boolean isFlagged() {

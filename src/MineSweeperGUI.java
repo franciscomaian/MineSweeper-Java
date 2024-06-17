@@ -95,6 +95,12 @@ public class MineSweeperGUI extends JFrame {
         add(panel, BorderLayout.CENTER);
     }
 
+    /**
+     * Method to start the game with the selected difficulty.
+     *
+     * @param difficulty The difficulty level of the game.
+     */
+
     // Método para iniciar o jogo com a dificuldade selecionada
     private void startGame(int difficulty) {
         this.difficulty = difficulty;
