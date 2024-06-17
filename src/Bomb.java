@@ -1,6 +1,10 @@
 /**
  * Class representing a Bomb cell in a Minesweeper game.
  * Implements the Cell interface.
+ *
+ * @author Francisco Luiz Maian do Nascimento - nUSP: 14570890
+ * @author Gustavo Cardozo de Moraes Moreira - nUSP: 5244057
+ * @author Matheus Rodrigues do Santos - nUSP: 11212866
  */
 public class Bomb implements Cell {
     // Variáveis de instância privadas que representam o estado da célula

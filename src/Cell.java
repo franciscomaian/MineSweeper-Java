@@ -3,6 +3,10 @@
  *
  * <p>This interface provides methods to interact with the cell, such as checking if it is a bomb,
  * getting its value, checking if it is open or flagged, and changing its status based on special bombs around.
+ *
+ * @author Francisco Luiz Maian do Nascimento - nUSP: 14570890
+ * @author Gustavo Cardozo de Moraes Moreira - nUSP: 5244057
+ * @author Matheus Rodrigues do Santos - nUSP: 11212866
  */
 public interface Cell {
     /**

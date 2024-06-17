@@ -1,3 +1,8 @@
+/**
+ * @author Francisco Luiz Maian do Nascimento - nUSP: 14570890
+ * @author Gustavo Cardozo de Moraes Moreira - nUSP: 5244057
+ * @author Matheus Rodrigues do Santos - nUSP: 11212866
+ */
 // Declaração da classe Field que implementa a interface Cell
 public class Field implements Cell {
     // Variáveis de instância privadas que representam o estado da célula

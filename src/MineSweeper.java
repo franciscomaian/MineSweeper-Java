@@ -1,3 +1,8 @@
+/**
+ * @author Francisco Luiz Maian do Nascimento - nUSP: 14570890
+ * @author Gustavo Cardozo de Moraes Moreira - nUSP: 5244057
+ * @author Matheus Rodrigues do Santos - nUSP: 11212866
+ */
 import java.lang.Math;
 
 // Declaração da classe MineSweeper
