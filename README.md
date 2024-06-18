@@ -24,7 +24,7 @@ O células do campo foram feitas a partir de uma interface chamada Cell, e como 
 * **Ganhar o jogo:** Verificar se o jogo acaba corretamente quando abre todas as casas que não possuem bomba;
 * **Recomeçar:** Verificar se a funcionalidade de play again funciona.
 
-### 5.Plano de testes:
+### 5.Resultado dos testes:
 * **Verificação de dificuldades:** O jogo muda o tamanho do grid quando muda-se de deificuldade e mostra o scoreboard daquela dificuldade;
 * **Abrir uma célula:** A célula abre mostrando se é uma bomba ou um número, e abre as células adjacentes quando o número é zero;
 * **Marcar uma célula:** A célula fica marcada corretamente quando é utilizado a opção de flag;
